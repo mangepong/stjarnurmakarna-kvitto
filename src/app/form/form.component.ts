@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KvittoModel } from '../shared/KvittoModel';
 import { ApplicationService } from '../ApplicationService';
+import { modelToApi } from '../utils/TransformService';
 
 @Component({
   selector: 'app-form',
@@ -8,7 +9,6 @@ import { ApplicationService } from '../ApplicationService';
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit {
-  
   public model: KvittoModel = {
     arbeten: [
       { value: 1, name: 'Glas', checked: false },
@@ -19,21 +19,24 @@ export class FormComponent implements OnInit {
     ],
   } as KvittoModel;
 
-
-  constructor(
-    private applicationService: ApplicationService
-) { }
+  constructor(private applicationService: ApplicationService) {}
 
   ngOnInit() {
     this.model.inDatum = new Date()
-    .toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })
-    .slice(0, 16);
+      .toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })
+      .slice(0, 16);
     this.model.levDatum = new Date()
-    .toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })
-    .slice(0, 16);
+      .toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })
+      .slice(0, 16);
+
+    this.applicationService.getRefNumber().subscribe((data: any) => {
+      this.model.refNummer = data.refNummer;
+    });
   }
   onClickSubmit() {
-    console.log("Skickar");
-    this.applicationService.create(this.model);
+    console.log(JSON.stringify(this.model));
+    console.log(JSON.stringify(modelToApi(this.model)));
+
+    this.applicationService.create(modelToApi(this.model));
   }
 }

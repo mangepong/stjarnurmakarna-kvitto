@@ -1,0 +1,110 @@
+
+
+<div class="mb-10 mt-10 pl-3 pr-3">
+    <div class="flex">
+        <select [(ngModel)]="selectedCategory" (change)="onSelected()" class="flex-shrink-0 z-10 inline-flex py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">
+            <option *ngFor="let opt of options" [value]=opt.value>{{opt.name}}</option>
+        </select>
+        <div class="relative w-full">
+            <input type="search" id="search-dropdown" [(ngModel)]="searchQuery" (keydown.enter)="onSearch()" (keydown.backspace)="clear()" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Sök efter reperationsnummer, kundnamn, telefon..." required>
+        </div>
+    </div>
+</div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Reparations Nummer
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Kundnamn
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Telefon
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Adress
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Varutyp
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fabrikat
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Inlämningsdatum
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Leveransdatum
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Arbete
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Status Meddelande
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Notering
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Pris
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Ändra
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let kvitto of listed"  class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{kvitto.refNummer}}
+                </th>
+                <td class="px-6 py-4">
+                    {{kvitto.kundnamn}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.telefon}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.adress}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.kategori}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.fabrikat}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.inDatum}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.levDatum}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.arbeten}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.statusMeddelande}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.notering}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.status}}
+                </td>
+                <td class="px-6 py-4">
+                    {{kvitto.pris}}kr
+                </td>
+                <td class="px-6 py-4">
+                    <a href="update/{{kvitto.refNummer}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ändra</a><br>
+                    <a href="show/{{kvitto.refNummer}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Visa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

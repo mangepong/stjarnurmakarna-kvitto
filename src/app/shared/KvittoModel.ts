@@ -7,17 +7,17 @@ export interface KvittoInterface {
   fabrikat: string;
   inDatum: string;
   levDatum: string;
-  arbeten: [
-    { value: 1; name: 'Glas'; checked: false },
-    { value: 2; name: 'Batteri'; checked: false },
-    { value: 3; name: 'Länk ändring'; checked: false },
-    { value: 4; name: 'Kostnadsförslag'; checked: false },
-    { value: 5; name: 'Övrigt'; checked: false }
-  ];
+  arbeten: Array<Arbeten>,
   statusMeddelande: string;
   notering: string;
   status: boolean;
   pris: string;
+}
+
+export interface Arbeten {
+  value: number,
+  name: string,
+  checked: boolean
 }
 
 export class KvittoModel {
@@ -44,13 +44,7 @@ export class KvittoModel {
   fabrikat: string;
   inDatum: string;
   levDatum: string;
-  arbeten: [
-    { value: 1; name: 'Glas'; checked: false },
-    { value: 2; name: 'Batteri'; checked: false },
-    { value: 3; name: 'Länk ändring'; checked: false },
-    { value: 4; name: 'Kostnadsförslag'; checked: false },
-    { value: 5; name: 'Övrigt'; checked: false }
-  ];
+  arbeten: Array<Arbeten>;
   statusMeddelande: string;
   notering: string;
   status: boolean;
