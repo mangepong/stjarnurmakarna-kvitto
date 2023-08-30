@@ -8,6 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ApplicationService {
 
+    private publicURL = "https://stjarnurmakarna-be.onrender.com";
+    private privateURL = "http://localhost:3000"
+
     constructor(
         private http: HttpClient,
         private route: ActivatedRoute,
@@ -15,25 +18,25 @@ export class ApplicationService {
     ) { }
 
     create(model: KvittoModel) {
-        return this.http.post(`http://localhost:3000/create`, {model}).subscribe(data => {
+        return this.http.post(this.privateURL+`/create`, {model}).subscribe(data => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
     }
 
     getRefNumber() {
-        return this.http.get(`http://localhost:3000/getRefNumber`);
+        return this.http.get(this.privateURL+`/getRefNumber`);
     }
 
     getAll() {
-        return this.http.get(`http://localhost:3000/getAll`);
+        return this.http.get(this.privateURL+`/getAll`);
     }
 
     getKvitto(refNr: number) {
-        return this.http.post(`http://localhost:3000/getSpecific`, {refNr});
+        return this.http.post(this.privateURL+`/getSpecific`, {refNr});
     }
 
     update(model: KvittoModel) {
-        return this.http.post(`http://localhost:3000/update`, {model}).subscribe(data => {
+        return this.http.post(this.privateURL+`/update`, {model}).subscribe(data => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
     }
