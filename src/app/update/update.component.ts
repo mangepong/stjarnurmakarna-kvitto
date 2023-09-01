@@ -32,7 +32,7 @@ export class UpdateComponent implements OnInit {
     ];
 
 
-    this.applicationService.getKvitto(this.refNr).subscribe((data: any) => {
+    this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
       this.model = data.data[0];
       for (let i = 0; i < tempArbeten.length; i++) {
         if (this.model.arbeten.includes(tempArbeten[i].name)) {

@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
     { name: "Fabrikat", value: "fabrikat" },
     { name: "Notering", value: "notering" },
   ];
+  public isLoading: boolean = true;
   constructor(
     private applicationService: ApplicationService
   ) { }
@@ -28,11 +29,11 @@ export class ListComponent implements OnInit {
     this.applicationService.getAll().subscribe((data: any) => {
       this.model = data.data;
       this.listed = this.model;
+      this.isLoading = false;
     });
   }
 
   onSelected() {
-    console.log(this.selectedCategory);
   }
 
   clear() {
@@ -44,31 +45,81 @@ export class ListComponent implements OnInit {
   }
 
   onSearch() {
-    console.log("sök")
+    this.isLoading = true;
     this.listed = [];
 
     if (this.searchQuery == "") {
       this.listed = this.model;
       return;
     }
-    for (let kvitto of this.model) {
-      if (this.selectedCategory == "all") {
-        if (kvitto.refNummer.toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto.refNummer.toString().toLocaleLowerCase() == this.searchQuery) {
-          this.listed.push(kvitto);
-        } else if (kvitto[this.options[2].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[1].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
-          this.listed.push(kvitto);
-        } else if (kvitto[this.options[3].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[2].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
-          this.listed.push(kvitto);
-        } else if (kvitto[this.options[4].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[3].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
-          this.listed.push(kvitto);
-        } else if (kvitto[this.options[5].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[4].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
-          this.listed.push(kvitto);
-        }
-      } else {
-        if (kvitto[this.selectedCategory as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery.toLowerCase()) || kvitto[this.selectedCategory as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery.toLocaleLowerCase()) {
-          this.listed.push(kvitto);
-        }
-      }
+
+    switch(this.selectedCategory) {
+      case "refNummer":
+        this.applicationService.getKvitto(this.searchQuery).subscribe((data: any) => {
+          data.data.forEach((kvitto: KvittoModel) => {
+            this.listed.push(kvitto);
+          });
+        });
+        break;
+      case "kundnamn":
+        this.applicationService.getSpecificCustomer(this.searchQuery).subscribe((data: any) => {
+          data.data.forEach((kvitto: KvittoModel) => {
+            this.listed.push(kvitto);
+          });
+        });
+        break;
+      case "telefon":
+        this.applicationService.getSpecificPhone(this.searchQuery).subscribe((data: any) => {
+          data.data.forEach((kvitto: KvittoModel) => {
+            this.listed.push(kvitto);
+          });
+        });
+        break;
+      case "fabrikat":
+        this.applicationService.getSpecificFabrikat(this.searchQuery).subscribe((data: any) => {
+          data.data.forEach((kvitto: KvittoModel) => {
+            this.listed.push(kvitto);
+          });
+        });
+        break;
+      case "notering":
+        this.applicationService.getSpecificNote(this.searchQuery).subscribe((data: any) => {
+          data.data.forEach((kvitto: KvittoModel) => {
+            this.listed.push(kvitto);
+          });
+        });
+        break;
     }
+    this.isLoading = false;
   }
+
+  // onSearch() {
+  //   this.isLoading = true;
+  //   this.listed = [];
+
+  //   if (this.searchQuery == "") {
+  //     this.listed = this.model;
+  //     return;
+  //   }
+  //   for (let kvitto of this.model) {
+  //     if (this.selectedCategory == "all") {
+  //       if (kvitto.refNummer.toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto.refNummer.toString().toLocaleLowerCase() == this.searchQuery) {
+  //         this.listed.push(kvitto);
+  //       } else if (kvitto[this.options[2].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[1].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
+  //         this.listed.push(kvitto);
+  //       } else if (kvitto[this.options[3].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[2].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
+  //         this.listed.push(kvitto);
+  //       } else if (kvitto[this.options[4].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[3].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
+  //         this.listed.push(kvitto);
+  //       } else if (kvitto[this.options[5].value as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery) || kvitto[this.options[4].value as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery) {
+  //         this.listed.push(kvitto);
+  //       }
+  //     } else {
+  //       if (kvitto[this.selectedCategory as keyof KvittoModel].toString().toLocaleLowerCase().includes(this.searchQuery.toLowerCase()) || kvitto[this.selectedCategory as keyof KvittoModel].toString().toLocaleLowerCase() == this.searchQuery.toLocaleLowerCase()) {
+  //         this.listed.push(kvitto);
+  //       }
+  //     }
+  //   }
+  //   this.isLoading = false;
+  // }
 }

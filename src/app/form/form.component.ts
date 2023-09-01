@@ -34,9 +34,6 @@ export class FormComponent implements OnInit {
     });
   }
   onClickSubmit() {
-    console.log(JSON.stringify(this.model));
-    console.log(JSON.stringify(modelToApi(this.model)));
-
     this.applicationService.create(modelToApi(this.model));
   }
 }

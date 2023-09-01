@@ -31,7 +31,7 @@ export class ApplicationService {
         return this.http.get(this.privateURL+`/getAll`);
     }
 
-    getKvitto(refNr: number) {
+    getKvitto(refNr: string) {
         return this.http.post(this.privateURL+`/getSpecific`, {refNr});
     }
 
@@ -39,5 +39,20 @@ export class ApplicationService {
         return this.http.post(this.privateURL+`/update`, {model}).subscribe(data => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
+    }
+
+    // Search functions
+
+    getSpecificCustomer(kundnamn: string) {
+        return this.http.post(this.privateURL+`/getSpecificCustomer`, {kundnamn});
+    }
+    getSpecificPhone(telefon: string) {
+        return this.http.post(this.privateURL+`/getSpecificPhone`, {telefon});
+    }
+    getSpecificFabrikat(fabrikat: string) {
+        return this.http.post(this.privateURL+`/getSpecificFabrikat`, {fabrikat});
+    }
+    getSpecificNote(notering: string) {
+        return this.http.post(this.privateURL+`/getSpecificNote`, {notering});
     }
 }

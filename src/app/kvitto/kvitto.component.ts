@@ -23,7 +23,7 @@ export class KvittoComponent implements OnInit {
         this.refNr = params['refNr']
     )
 
-    this.applicationService.getKvitto(this.refNr).subscribe((data: any) => {
+    this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
       this.kvitto = data.data[0];
     });
   }
