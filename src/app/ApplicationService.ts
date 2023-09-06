@@ -10,7 +10,7 @@ export class ApplicationService {
 
     private publicURL = "https://stjarnurmakarna-be.onrender.com";
     private privateURL = "http://192.168.50.106:3000";
-    private test = "http://84.217.12.146:3000";
+    private test = "http://localhost:3000";
 
 
     constructor(
@@ -20,25 +20,25 @@ export class ApplicationService {
     ) { }
 
     create(model: KvittoModel) {
-        return this.http.post(this.test+`/create`, {model}).subscribe(data => {
+        return this.http.post(this.publicURL+`/create`, {model}).subscribe(data => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
     }
 
     getRefNumber() {
-        return this.http.get(this.test+`/getRefNumber`);
+        return this.http.get(this.publicURL+`/getRefNumber`);
     }
 
     getAll() {
-        return this.http.get(this.test+`/getAll`);
+        return this.http.get(this.publicURL+`/getAll`);
     }
 
     getKvitto(refNr: string) {
-        return this.http.post(this.test+`/getSpecific`, {refNr});
+        return this.http.post(this.publicURL+`/getSpecific`, {refNr});
     }
 
     update(model: KvittoModel) {
-        return this.http.post(this.test+`/update`, {model}).subscribe(data => {
+        return this.http.post(this.publicURL+`/update`, {model}).subscribe(data => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
     }
@@ -46,15 +46,15 @@ export class ApplicationService {
     // Search functions
 
     getSpecificCustomer(kundnamn: string) {
-        return this.http.post(this.test+`/getSpecificCustomer`, {kundnamn});
+        return this.http.post(this.publicURL+`/getSpecificCustomer`, {kundnamn});
     }
     getSpecificPhone(telefon: string) {
-        return this.http.post(this.test+`/getSpecificPhone`, {telefon});
+        return this.http.post(this.publicURL+`/getSpecificPhone`, {telefon});
     }
     getSpecificFabrikat(fabrikat: string) {
-        return this.http.post(this.test+`/getSpecificFabrikat`, {fabrikat});
+        return this.http.post(this.publicURL+`/getSpecificFabrikat`, {fabrikat});
     }
     getSpecificNote(notering: string) {
-        return this.http.post(this.test+`/getSpecificNote`, {notering});
+        return this.http.post(this.publicURL+`/getSpecificNote`, {notering});
     }
 }
