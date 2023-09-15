@@ -67,60 +67,22 @@ export class ListComponent implements OnInit {
 
     switch(this.selectedCategory) {
       case "all":
-        console.log("all")
-        this.applicationService.getItemsBySearchQuery(this.searchQuery).subscribe((data: any) => {
-          console.log("data", data)
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getItemsBySearchQuery(this.searchQuery);
         break;
       case "refNummer":
-        this.applicationService.getSpecificRef(parseInt(this.searchQuery)).subscribe((data: any) => {
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getSpecificRef(this.searchQuery);
         break;
       case "kundnamn":
-        this.applicationService.getSpecificCustomer(this.searchQuery).subscribe((data: any) => {
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getSpecificCustomer(this.searchQuery);
         break;
       case "telefon":
-        this.applicationService.getSpecificPhone(this.searchQuery).subscribe((data: any) => {
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getSpecificPhone(this.searchQuery);
         break;
       case "fabrikat":
-        this.applicationService.getSpecificFabrikat(this.searchQuery).subscribe((data: any) => {
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getSpecificFabrikat(this.searchQuery);
         break;
       case "notering":
-        this.applicationService.getSpecificNote(this.searchQuery).subscribe((data: any) => {
-          this.listed = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
-            return {
-              ...e.payload.val()
-            } as KvittoModel;
-          });
-        });
+        this.listed = this.applicationService.getSpecificNote(this.searchQuery);
         break;
     }
     this.isLoading = false;

@@ -3,84 +3,91 @@
     <div id="print-section" class="bg-white border rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
     
         <!-- Till Kund -->
-        <h1 class="text-3xl font-bold max-w-md text-right mb-[-30px]">Nr: {{kvitto.refNummer}}</h1>
-        <div class="grid grid-cols-2 gap-4">
+        <h1 class="text-2xl font-bold max-w-md text-right mb-[-35px] mr-[30px] z-10">Nr: {{kvitto.refNummer}}</h1>
+        <div class="grid grid-cols-2 gap-4 mr-[40px]">
             <img src="../assets/logotyp.jpg" class="">
-            <div id="info" class="mt-12">
-                Borgmästaregatan 20<br>
-                37115<br>
-                0455-84092<br>
-                072-338 4092
+            <div id="info" class="mt-12 text-xs">
+                    Borgmästaregatan 20<br>
+                    37115 Karlskrona<br>
+                    0455-84092<br>
+                    072-338 4092
             </div>
         </div>
         <h1 class="text-lg font-bold">Inlämningskvitto</h1>
-        <div class="text-sm mb-4">
-            OBS! Till reperation inlämnade varor återfås <i>endast</i> mot detta kvitto och bör avhämtas senast 3 månader från aviserad färdigställd reperation. Efter denna tid ansvaras ej för deras förvaring.
+        <div class="text-xs mb-4">
+                OBS! Inlämnade varor återfås <i>endast</i> mot detta kvitto och bör avhämtas senast 3 månader från aviserad färdigställd reparation. Efter denna tid ansvaras ej för deras förvaring.
         </div>
         <hr class="mb-2">
-    
-    
-        <!-- Till Sjtärnurmakarna -->
-    
-        <h1 class="text-3xl font-bold max-w-md text-right mb-[-30px]">Nr: {{kvitto.refNummer}}</h1>
-        <img src="../assets/logotyp.jpg" class="h-auto max-w-md mx-auto">
-    
-        <!-- <div class="w-full flex justify-center items-center">
-            <div class="text-sm">
-                Borgmästaregatan 20<br>
-                37115<br>
-                0455-84092<br>
-                072-338 4092
-            </div>
-        </div> -->
-        <hr class="mb-2">
-        <div class="flex justify-between mb-6">
-            <h1 class="text-lg font-bold">Inlämningskvitto</h1>
-            <div class="text-gray-700">
-                <div><b>Datum: </b>{{kvitto.inDatum}}</div>
-            </div>
-        </div>
-        <div class="mb-8">
-            <h2 class="text-lg font-bold mb-4">Kunduppgifter:</h2>
-            <div class="text-gray-700 mb-2">{{kvitto.kundnamn}}</div>
-            <div class="text-gray-700 mb-2">{{kvitto.adress}}</div>
-            <div class="text-gray-700">{{kvitto.telefon}}</div>
-        </div>
-        <table class="w-full mb-8">
-            <thead>
-                <tr>
-                    <th class="text-left font-bold text-gray-700">Information</th>
-                    <!-- <th class="text-right font-bold text-gray-700">Amount</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-left text-gray-700">Varutyp</td>
-                    <td class="text-right text-gray-700">{{kvitto.kategori}}</td>
-                </tr>
-                <tr>
-                    <td class="text-left text-gray-700">Fabrikat</td>
-                    <td class="text-right text-gray-700">{{kvitto.fabrikat}}</td>
-                </tr>
-                <tr>
-                    <td class="text-left text-gray-700">Arbeten</td>
-                    <td class="text-right text-gray-700">{{arbetenKvitto}}</td>
-                </tr>
-                <!-- <tr>
-                    <td class="text-left text-gray-700">Status</td>
-                    <td class="text-right text-gray-700">{{kvitto.status}}</td>
-                </tr> -->
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td class="text-left font-bold text-gray-700">Totalt</td>
-                    <td *ngIf="kvitto.pris" class="text-right font-bold text-gray-700">{{kvitto.pris}}kr</td>
-                </tr>
-            </tfoot>
-        </table>
     </div>
     <div class="rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
         <button [useExistingCss]="true" class="inline-flex items-center px-5 py-2.5 mt-4 mr-4 sm:mt-6 text-sm font-medium text-center text-white bg-sky-500/100 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800" printSectionId="print-section" ngxPrint>Skriv ut</button> 
+    </div>
+
+</div>
+
+
+<div class="grid grid-cols-2 gap-4">
+    <div id="print-section2" class="bg-white border rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
+        <!-- Till Sjtärnurmakarna -->
+    
+        <h1 class="text-2xl font-bold max-w-md text-right mb-[-35px] mr-[30px]">Nr: {{kvitto.refNummer}}</h1>
+        <img src="../assets/logotyp.jpg" class="h-auto max-w-sm w-32 mx-auto ml-[-0px]">
+    
+        <hr class="mb-2">
+        <div class="flex justify-between mb-4">
+            <h1 class="text-lg font-bold">Inlämningskvitto</h1>
+        </div>
+        <div class="mb-4">
+            <div><b>Datum: </b>{{kvitto.inDatum}}</div>
+        </div>
+        <div class="mb-8">
+            <b>
+                <h2 class="text-lg font-bold mb-4">Kunduppgifter:</h2>
+                <div class=" mb-2">{{kvitto.kundnamn}}</div>
+                <div class=" mb-2">{{kvitto.adress}}</div>
+                <div class="">{{kvitto.telefon}}</div>
+            </b>
+        </div>
+        <table class="w-auto mb-8 mr-[20px]">
+
+                <thead>
+                    <tr>
+                        <th class="text-left font-bold ">Information</th>
+                        <!-- <th class="text-right font-bold ">Amount</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left ">Varutyp</td>
+                        <td class="text-right ">{{kvitto.kategori}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Fabrikat</td>
+                        <td class="text-right ">{{kvitto.fabrikat}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Arbeten</td>
+                        <td class="text-right ">{{arbetenKvitto}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left ">Notering</td>
+                        <td class="text-right ">{{kvitto.notering}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td class="text-left ">Status</td>
+                        <td class="text-right ">{{kvitto.status}}</td>
+                    </tr> -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-left font-bold">Totalt</td>
+                        <td *ngIf="kvitto.pris" class="text-right font-bold ">{{kvitto.pris}}kr</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    <div class="rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
+        <button [useExistingCss]="true" class="inline-flex items-center px-5 py-2.5 mt-4 mr-4 sm:mt-6 text-sm font-medium text-center text-white bg-sky-500/100 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800" printSectionId="print-section2" ngxPrint>Skriv ut</button> 
     </div>
 
 </div>

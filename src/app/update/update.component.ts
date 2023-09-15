@@ -35,9 +35,11 @@ export class UpdateComponent implements OnInit {
     this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
       this.model = data.payload.val();
       for (let i = 0; i < tempArbeten.length; i++) {
-        for (let j = 0; j < this.model.arbeten.length; j++) {
-          if (this.model.arbeten[j].name == tempArbeten[i].name && this.model.arbeten[j].checked) {
-            tempArbeten[i].checked = true;
+        if(this.model.arbeten) {
+          for (let j = 0; j < this.model.arbeten.length; j++) {
+            if (this.model.arbeten[j].name == tempArbeten[i].name && this.model.arbeten[j].checked) {
+              tempArbeten[i].checked = true;
+            }
           }
         }
       }

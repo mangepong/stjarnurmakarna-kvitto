@@ -78,6 +78,7 @@ export class ApplicationService {
     }
 
     update(model: KvittoModel) {
+        console.log(model.key)
         var updates = {} as any;
         updates['kvitto' + '/' + model.key] = model;
     
@@ -94,23 +95,133 @@ export class ApplicationService {
 
     // Search functions
 
-    getSpecificRef(refNr: number) {
-        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').equalTo(refNr)).snapshotChanges();
+    getSpecificRef(refNr: string): any {
+
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.refNummer == parseInt(refNr)) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
     }
     getSpecificCustomer(kundnamn: string) {
-        return this.db.list('kvitto', ref => ref.orderByChild('kundnamn').equalTo(kundnamn)).snapshotChanges();
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.kundnamn && kvitto.kundnamn.toLocaleLowerCase().includes(kundnamn.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
+        // return this.db.list('kvitto', ref => ref.orderByChild('kundnamn').equalTo(kundnamn)).snapshotChanges();
     }
     getSpecificPhone(telefon: string) {
-        return this.db.list('kvitto', ref => ref.orderByChild('telefon').equalTo(telefon)).snapshotChanges();
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.telefon && kvitto.telefon.toLocaleLowerCase().includes(telefon.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
+        // return this.db.list('kvitto', ref => ref.orderByChild('telefon').equalTo(telefon)).snapshotChanges();
     }
     getSpecificFabrikat(fabrikat: string) {
-        return this.db.list('kvitto', ref => ref.orderByChild('fabrikat').equalTo(fabrikat)).snapshotChanges();
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.fabrikat && kvitto.fabrikat.toLocaleLowerCase().includes(fabrikat.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
+        // return this.db.list('kvitto', ref => ref.orderByChild('fabrikat').equalTo(fabrikat)).snapshotChanges();
     }
     getSpecificNote(notering: string) {
-        return this.db.list('kvitto', ref => ref.orderByChild('notering').equalTo(notering)).snapshotChanges();
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.notering && kvitto.notering.toLocaleLowerCase().includes(notering.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
+        // return this.db.list('kvitto', ref => ref.orderByChild('notering').equalTo(notering)).snapshotChanges();
     }
 
     getItemsBySearchQuery(searchQuery: string) {
-        return this.db.list('kvitto', ref => ref.startAt(searchQuery).endAt(searchQuery + '\uf8ff')).snapshotChanges();
+        let temp;
+        let res: any[] = [];
+
+        this.db.list('kvitto').snapshotChanges().subscribe((data: any) => {
+            temp = data.map((e: { payload: { val: () => KvittoModel; }; }) => {
+              return {
+                ...e.payload.val()
+              } as KvittoModel;
+            });
+
+            temp.forEach((kvitto: any) => {
+                if (kvitto.notering && kvitto.notering.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                } else if (kvitto.fabrikat && kvitto.fabrikat.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                } else if (kvitto.telefon && kvitto.telefon.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                } else if (kvitto.kundnamn && kvitto.kundnamn.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())) {
+                    res.push(kvitto);
+                } else if (kvitto.refNummer == parseInt(searchQuery)) {
+                    res.push(kvitto);
+                }
+            });
+          });
+        return res;
+        // return this.db.list('kvitto', ref => ref.startAt(searchQuery).endAt(searchQuery + '\uf8ff')).snapshotChanges();
     }
 }
