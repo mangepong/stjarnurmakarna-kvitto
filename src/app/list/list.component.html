@@ -97,7 +97,10 @@
                         {{kvitto.levDatum}}
                     </td>
                     <td class="px-6 py-4">
-                        {{kvitto.arbeten}}
+                        <div *ngFor="let arbete of kvitto.arbeten">
+                            <p *ngIf="arbete.checked">{{arbete.name}}</p>
+                        </div>
+                        <!-- {{kvitto.arbeten}} -->
                     </td>
                     <td class="px-6 py-4">
                         {{kvitto.statusMeddelande}}
@@ -109,11 +112,11 @@
                         {{kvitto.status}}
                     </td>
                     <td class="px-6 py-4">
-                        {{kvitto.pris}}kr
+                        <p *ngIf="kvitto.pris">{{kvitto.pris}}kr</p>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="update/{{kvitto.refNummer}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ändra</a><br>
-                        <a href="show/{{kvitto.refNummer}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Skriv ut</a>
+                        <a href="update/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ändra</a><br>
+                        <a href="show/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Skriv ut</a>
                     </td>
                 </tr>
             </tbody>

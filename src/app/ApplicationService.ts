@@ -2,59 +2,115 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { KvittoModel } from './shared/KvittoModel';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationService {
-
-    private publicURL = "https://stjarnurmakarna-be.onrender.com";
-    private privateURL = "http://192.168.50.106:3000";
-    private test = "http://localhost:3000";
-
-
     constructor(
+        private db: AngularFireDatabase,
         private http: HttpClient,
         private route: ActivatedRoute,
         private router: Router,
     ) { }
 
-    create(model: KvittoModel) {
-        return this.http.post(this.publicURL+`/create`, {model}).subscribe(data => {
-            this.router.navigate(['../list'], { relativeTo: this.route });
-        })
+    // OLD!!!!
+
+    // create(model: KvittoModel) {
+    //     return this.http.post(this.publicURL+`/create`, {model}).subscribe(data => {
+    //         this.router.navigate(['../list'], { relativeTo: this.route });
+    //     })
+    // }
+
+    // getRefNumber() {
+    //     return this.http.get(this.publicURL+`/getRefNumber`);
+    // }
+
+    // getAll() {
+    //     return this.http.get(this.publicURL+`/getAll`);
+    // }
+
+    // getKvitto(refNr: string) {
+    //     return this.http.post(this.publicURL+`/getSpecific`, {refNr});
+    // }
+
+    // update(model: KvittoModel) {
+    //     return this.http.post(this.publicURL+`/update`, {model}).subscribe(data => {
+    //         this.router.navigate(['../list'], { relativeTo: this.route });
+    //     })
+    // }
+
+    // // Search functions
+
+    // getSpecificCustomer(kundnamn: string) {
+    //     return this.http.post(this.publicURL+`/getSpecificCustomer`, {kundnamn});
+    // }
+    // getSpecificPhone(telefon: string) {
+    //     return this.http.post(this.publicURL+`/getSpecificPhone`, {telefon});
+    // }
+    // getSpecificFabrikat(fabrikat: string) {
+    //     return this.http.post(this.publicURL+`/getSpecificFabrikat`, {fabrikat});
+    // }
+    // getSpecificNote(notering: string) {
+    //     return this.http.post(this.publicURL+`/getSpecificNote`, {notering});
+    // }
+
+    // ##########################################################################################
+
+    // Firebase
+
+    async create(model: KvittoModel) {
+        await this.db.list('kvitto').push(model);
+        this.router.navigate(['../list'], { relativeTo: this.route });
     }
 
     getRefNumber() {
-        return this.http.get(this.publicURL+`/getRefNumber`);
+        return this.db.list('kvitto').snapshotChanges();
     }
 
     getAll() {
-        return this.http.get(this.publicURL+`/getAll`);
+        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').limitToLast(100)).snapshotChanges();
     }
 
     getKvitto(refNr: string) {
-        return this.http.post(this.publicURL+`/getSpecific`, {refNr});
+        return this.db.object('kvitto/' + refNr).snapshotChanges();
     }
 
     update(model: KvittoModel) {
-        return this.http.post(this.publicURL+`/update`, {model}).subscribe(data => {
+        var updates = {} as any;
+        updates['kvitto' + '/' + model.key] = model;
+    
+        this.db.database
+        .ref()
+        .update(updates)
+        .then(() => {
             this.router.navigate(['../list'], { relativeTo: this.route });
         })
+        .catch((err) => {
+            console.log(err);
+        });
     }
 
     // Search functions
 
+    getSpecificRef(refNr: number) {
+        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').equalTo(refNr)).snapshotChanges();
+    }
     getSpecificCustomer(kundnamn: string) {
-        return this.http.post(this.publicURL+`/getSpecificCustomer`, {kundnamn});
+        return this.db.list('kvitto', ref => ref.orderByChild('kundnamn').equalTo(kundnamn)).snapshotChanges();
     }
     getSpecificPhone(telefon: string) {
-        return this.http.post(this.publicURL+`/getSpecificPhone`, {telefon});
+        return this.db.list('kvitto', ref => ref.orderByChild('telefon').equalTo(telefon)).snapshotChanges();
     }
     getSpecificFabrikat(fabrikat: string) {
-        return this.http.post(this.publicURL+`/getSpecificFabrikat`, {fabrikat});
+        return this.db.list('kvitto', ref => ref.orderByChild('fabrikat').equalTo(fabrikat)).snapshotChanges();
     }
     getSpecificNote(notering: string) {
-        return this.http.post(this.publicURL+`/getSpecificNote`, {notering});
+        return this.db.list('kvitto', ref => ref.orderByChild('notering').equalTo(notering)).snapshotChanges();
+    }
+
+    getItemsBySearchQuery(searchQuery: string) {
+        return this.db.list('kvitto', ref => ref.startAt(searchQuery).endAt(searchQuery + '\uf8ff')).snapshotChanges();
     }
 }

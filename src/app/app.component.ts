@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from './shared/AuthenticationService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'stjarnurmakarna-kvitto';
+  constructor(
+    public authService: AuthenticationService,
+    public router: Router,
+  ) {}
 }

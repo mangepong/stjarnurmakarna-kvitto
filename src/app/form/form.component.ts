@@ -29,9 +29,9 @@ export class FormComponent implements OnInit {
       .toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })
       .slice(0, 16);
 
-    this.applicationService.getRefNumber().subscribe((data: any) => {
-      this.model.refNummer = data.refNummer;
-    });
+      this.applicationService.getRefNumber().subscribe((data: any) => {
+        this.model.refNummer = data.length + 1;
+      });
   }
   onClickSubmit() {
     this.applicationService.create(modelToApi(this.model));

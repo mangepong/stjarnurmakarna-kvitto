@@ -11,7 +11,7 @@ export class KvittoComponent implements OnInit {
   public kvitto = {} as any;
   private refNr: number = 0;
   public arbetenKvitto: string = "";
-
+  public temp: Array<string> = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -24,7 +24,14 @@ export class KvittoComponent implements OnInit {
     )
 
     this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
-      this.kvitto = data.data[0];
+      this.kvitto = data.payload.val();
+      this.kvitto.arbeten.forEach((item: any) => {
+        if (item.checked) {
+          this.arbetenKvitto += item.name.toString() + ", ";
+        }
+      });
+      this.arbetenKvitto = this.arbetenKvitto.slice(0, -2);
+      console.log(this.kvitto)
     });
   }
 }

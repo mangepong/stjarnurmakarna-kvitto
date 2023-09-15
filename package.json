@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "sh ./firebase_broken.sh && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "heroku-postbuild": "ng build"
@@ -26,7 +26,9 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "write-json-file": "^5.0.0",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.13.0",
+    "@angular/fire": "^7.2.0",
+    "firebase": "^9.6.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.0",

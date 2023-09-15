@@ -64,7 +64,7 @@
                 </tr>
                 <tr>
                     <td class="text-left text-gray-700">Arbeten</td>
-                    <td class="text-right text-gray-700">{{kvitto.arbeten}}</td>
+                    <td class="text-right text-gray-700">{{arbetenKvitto}}</td>
                 </tr>
                 <!-- <tr>
                     <td class="text-left text-gray-700">Status</td>
@@ -74,7 +74,7 @@
             <tfoot>
                 <tr>
                     <td class="text-left font-bold text-gray-700">Totalt</td>
-                    <td class="text-right font-bold text-gray-700">{{kvitto.pris}}kr</td>
+                    <td *ngIf="kvitto.pris" class="text-right font-bold text-gray-700">{{kvitto.pris}}kr</td>
                 </tr>
             </tfoot>
         </table>

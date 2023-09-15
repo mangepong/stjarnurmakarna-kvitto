@@ -10,7 +10,7 @@ import { modelToApi } from '../utils/TransformService';
 })
 export class UpdateComponent implements OnInit {
   public model = {} as any;
-  private refNr: number = 0;
+  public refNr: number = 0;
 
 
   constructor(
@@ -33,19 +33,21 @@ export class UpdateComponent implements OnInit {
 
 
     this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
-      this.model = data.data[0];
+      this.model = data.payload.val();
       for (let i = 0; i < tempArbeten.length; i++) {
-        if (this.model.arbeten.includes(tempArbeten[i].name)) {
-          tempArbeten[i].checked = true;
+        for (let j = 0; j < this.model.arbeten.length; j++) {
+          if (this.model.arbeten[j].name == tempArbeten[i].name && this.model.arbeten[j].checked) {
+            tempArbeten[i].checked = true;
+          }
         }
       }
+      this.model.key = this.refNr;
       this.model.arbeten = tempArbeten;
     });
   }
 
   updateKvitto() {
-    console.log(JSON.stringify(modelToApi(this.model)))
-    this.applicationService.update(modelToApi(this.model));
+    this.applicationService.update(this.model);
   }
 
   abort() {

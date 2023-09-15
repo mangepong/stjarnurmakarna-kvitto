@@ -12,6 +12,7 @@ export interface KvittoInterface {
   notering: string;
   status: boolean;
   pris: string;
+  key?: string;
 }
 
 export interface Arbeten {
@@ -35,6 +36,7 @@ export class KvittoModel {
     this.notering = model.notering;
     this.status = model.status;
     this.pris = model.pris;
+    this.key = model.key;
   }
   refNummer: number;
   kundnamn: string;
@@ -49,4 +51,5 @@ export class KvittoModel {
   notering: string;
   status: boolean;
   pris: string;
+  key?: string;
 }

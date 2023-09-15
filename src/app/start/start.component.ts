@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../shared/AuthenticationService';
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartComponent implements OnInit {
 
-  ngOnInit() {
-    console.log("Start")
+  constructor(
+    public authService: AuthenticationService,
+    public router: Router,
+  ) {}
+
+  ngOnInit(): void {
+    if(this.authService.isLoggedIn)
+      this.authService.SignOut();
   }
 }
