@@ -34,11 +34,11 @@
         <p class="text-white mt-6">Här var det tomt...</p>
     </div>
 
-    <div *ngIf="!isEmpty" class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <div *ngIf="!isEmpty" class="relative shadow-md flex items-center justify-center">
+        <table class="w-4/5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-3 py-3">
                         Reparations Nummer
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -60,18 +60,6 @@
                         Inlämningsdatum
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Leveransdatum
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Arbete
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status Meddelande
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Notering
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Status
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -83,11 +71,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let kvitto of listed"  class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <tr *ngFor="let kvitto of listed"  class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{kvitto.refNummer}}
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="px-3 py-4">
                         {{kvitto.kundnamn}}
                     </td>
                     <td class="px-6 py-4">
@@ -105,21 +93,12 @@
                     <td class="px-6 py-4">
                         {{kvitto.inDatum}}
                     </td>
-                    <td class="px-6 py-4">
-                        {{kvitto.levDatum}}
-                    </td>
-                    <td class="px-6 py-4">
+                    <!-- <td class="px-6 py-4">
                         <div *ngFor="let arbete of kvitto.arbeten">
                             <p *ngIf="arbete.checked">{{arbete.name}}</p>
                         </div>
-                        <!-- {{kvitto.arbeten}} -->
-                    </td>
-                    <td class="px-6 py-4">
-                        {{kvitto.statusMeddelande}}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{kvitto.notering}}
-                    </td>
+                        {{kvitto.arbeten}} 
+                    </td> -->
                     <td class="px-6 py-4">
                         {{kvitto.status}}
                     </td>
@@ -127,8 +106,10 @@
                         <p *ngIf="kvitto.pris">{{kvitto.pris}}kr</p>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="update/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ändra</a><br>
-                        <a href="show/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Skriv ut</a>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ändra</button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Skriv ut</button>
+                        <!-- <a href="update/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ändra</a><br>
+                        <a href="show/{{kvitto.key}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Skriv ut</a> -->
                     </td>
                 </tr>
             </tbody>
