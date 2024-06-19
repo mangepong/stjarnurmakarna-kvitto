@@ -13,7 +13,7 @@ export class ApplicationService {
         private http: HttpClient,
         private route: ActivatedRoute,
         private router: Router,
-    ) { }
+    ) {}
 
     // OLD!!!!
 
@@ -69,8 +69,9 @@ export class ApplicationService {
         return this.db.list('kvitto').snapshotChanges();
     }
 
-    getAll() {
-        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').limitToLast(100)).snapshotChanges();
+    getAll(amount: number = 0) {
+        console.log(amount)
+        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').startAt(amount).limitToFirst(100)).snapshotChanges();
     }
 
     getKvitto(refNr: string) {

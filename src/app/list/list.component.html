@@ -20,9 +20,21 @@
                 <input type="search" id="search-dropdown" [(ngModel)]="searchQuery" (keydown.enter)="onSearch()" (keydown.backspace)="clear()" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Sök efter reperationsnummer, kundnamn, telefon..." required>
             </div>
         </div>
+        <div class="grid gap-4 grid-cols-2 mt-10">
+            <div>
+                <button *ngIf="!isFirstPage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="previousPage()">Föregående sida</button>
+            </div>
+            <div *ngIf="!isEmpty">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded float-right" (click)="nextPage()">Nästa sida</button>
+            </div>
+        </div>
     </div>
     
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div *ngIf="isEmpty" class="text-center flex items-center justify-center">
+        <p class="text-white mt-6">Här var det tomt...</p>
+    </div>
+
+    <div *ngIf="!isEmpty" class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
