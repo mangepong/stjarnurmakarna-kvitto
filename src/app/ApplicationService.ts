@@ -70,8 +70,7 @@ export class ApplicationService {
     }
 
     getAll(amount: number = 0) {
-        console.log(amount)
-        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').startAt(amount).limitToFirst(100)).snapshotChanges();
+        return this.db.list('kvitto', ref => ref.orderByChild('refNummer').endAt(amount).limitToLast(100)).snapshotChanges();
     }
 
     getKvitto(refNr: string) {

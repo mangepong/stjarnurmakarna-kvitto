@@ -24,31 +24,39 @@ export class ListComponent implements OnInit {
   public isEmpty: boolean = true;
   public currentPage: number = 0;
   public isFirstPage: boolean = true;
+  public currentMaxNumber: number = 0;
+  public listLenght: number = 0;
+  public isLastPage: boolean = false;
   constructor(
     private applicationService: ApplicationService
   ) { }
 
   ngOnInit() {
-    this.applicationService.getAll(0).subscribe((data: any) => {
-      this.model = data.map((e: any) => {
-        return {
-          ...e.payload.val(),
-          key: e.key,
-        } as KvittoModel;
+    this.applicationService.getRefNumber().subscribe((data: any) => {
+      this.listLenght = data.length;
+
+      this.applicationService.getAll(this.listLenght).subscribe((data: any) => {
+        this.model = data.map((e: any) => {
+          return {
+            ...e.payload.val(),
+            key: e.key,
+          } as KvittoModel;
+        });
+        this.listed = this.model.reverse();
+        this.currentMaxNumber = this.listed[0].refNummer;
+        this.checkIfEmpty();
+        this.isLoading = false;
       });
-      this.listed = this.model.reverse();
-      this.checkIfEmpty();
-      this.isLoading = false;
+      this.isFirstPage = this.currentPage === 0;
     });
-    this.isFirstPage = this.currentPage === 0;
   }
 
   nextPage() {
-    this.isLoading= true;
+    this.isLoading = true;
     this.model = [];
     this.listed = [];
     this.currentPage += 1;
-    this.applicationService.getAll(this.currentPage * 100).subscribe((data: any) => {
+    this.applicationService.getAll(this.currentMaxNumber - 100).subscribe((data: any) => {
       this.model = data.map((e: any) => {
         return {
           ...e.payload.val(),
@@ -56,18 +64,20 @@ export class ListComponent implements OnInit {
         } as KvittoModel;
       });
       this.listed = this.model.reverse();
+      this.currentMaxNumber = this.listed[0].refNummer;
       this.checkIfEmpty();
+      this.checkIsLastPage();
       this.isLoading = false;
     });
     this.isFirstPage = this.currentPage === 0;
   }
 
   previousPage() {
-    this.isLoading= true;
+    this.isLoading = true;
     this.model = [];
     this.listed = [];
     this.currentPage -= 1;
-    this.applicationService.getAll(this.currentPage * 100).subscribe((data: any) => {
+    this.applicationService.getAll(this.currentMaxNumber + 100).subscribe((data: any) => {
       this.model = data.map((e: any) => {
         return {
           ...e.payload.val(),
@@ -75,18 +85,27 @@ export class ListComponent implements OnInit {
         } as KvittoModel;
       });
       this.listed = this.model.reverse();
+      this.currentMaxNumber = this.listed[0].refNummer;
       this.checkIfEmpty();
+      this.checkIsLastPage();
       this.isLoading = false;
     });
     this.isFirstPage = this.currentPage === 0;
   }
 
   checkIfEmpty() {
-    console.log(this.listed.length)
     if (this.listed.length === 0) {
       this.isEmpty = true;
     } else {
       this.isEmpty = false;
+    }
+  }
+
+  checkIsLastPage() {
+    if (this.listed[this.listed.length-1].refNummer === 1) {
+      this.isLastPage = true;
+    } else {
+      this.isLastPage = false;
     }
   }
 
@@ -111,7 +130,7 @@ export class ListComponent implements OnInit {
       return;
     }
 
-    switch(this.selectedCategory) {
+    switch (this.selectedCategory) {
       case "all":
         this.listed = this.applicationService.getItemsBySearchQuery(this.searchQuery);
         break;
@@ -136,54 +155,54 @@ export class ListComponent implements OnInit {
 }
 
 
-  // onSearch() {
-  //   this.isLoading = true;
-  //   this.listed = [];
+// onSearch() {
+//   this.isLoading = true;
+//   this.listed = [];
 
-  //   if (this.searchQuery == "") {
-  //     this.listed = this.model;
-  //     return;
-  //   }
+//   if (this.searchQuery == "") {
+//     this.listed = this.model;
+//     return;
+//   }
 
-  //   switch(this.selectedCategory) {
-  //     case "refNummer":
-  //       this.applicationService.getKvitto(this.searchQuery).subscribe((data: any) => {
-  //         data.data.forEach((kvitto: KvittoModel) => {
-  //           this.listed.push(kvitto);
-  //         });
-  //       });
-  //       break;
-  //     case "kundnamn":
-  //       this.applicationService.getSpecificCustomer(this.searchQuery).subscribe((data: any) => {
-  //         data.data.forEach((kvitto: KvittoModel) => {
-  //           this.listed.push(kvitto);
-  //         });
-  //       });
-  //       break;
-  //     case "telefon":
-  //       this.applicationService.getSpecificPhone(this.searchQuery).subscribe((data: any) => {
-  //         data.data.forEach((kvitto: KvittoModel) => {
-  //           this.listed.push(kvitto);
-  //         });
-  //       });
-  //       break;
-  //     case "fabrikat":
-  //       this.applicationService.getSpecificFabrikat(this.searchQuery).subscribe((data: any) => {
-  //         data.data.forEach((kvitto: KvittoModel) => {
-  //           this.listed.push(kvitto);
-  //         });
-  //       });
-  //       break;
-  //     case "notering":
-  //       this.applicationService.getSpecificNote(this.searchQuery).subscribe((data: any) => {
-  //         data.data.forEach((kvitto: KvittoModel) => {
-  //           this.listed.push(kvitto);
-  //         });
-  //       });
-  //       break;
-  //   }
-  //   this.isLoading = false;
-  // }
+//   switch(this.selectedCategory) {
+//     case "refNummer":
+//       this.applicationService.getKvitto(this.searchQuery).subscribe((data: any) => {
+//         data.data.forEach((kvitto: KvittoModel) => {
+//           this.listed.push(kvitto);
+//         });
+//       });
+//       break;
+//     case "kundnamn":
+//       this.applicationService.getSpecificCustomer(this.searchQuery).subscribe((data: any) => {
+//         data.data.forEach((kvitto: KvittoModel) => {
+//           this.listed.push(kvitto);
+//         });
+//       });
+//       break;
+//     case "telefon":
+//       this.applicationService.getSpecificPhone(this.searchQuery).subscribe((data: any) => {
+//         data.data.forEach((kvitto: KvittoModel) => {
+//           this.listed.push(kvitto);
+//         });
+//       });
+//       break;
+//     case "fabrikat":
+//       this.applicationService.getSpecificFabrikat(this.searchQuery).subscribe((data: any) => {
+//         data.data.forEach((kvitto: KvittoModel) => {
+//           this.listed.push(kvitto);
+//         });
+//       });
+//       break;
+//     case "notering":
+//       this.applicationService.getSpecificNote(this.searchQuery).subscribe((data: any) => {
+//         data.data.forEach((kvitto: KvittoModel) => {
+//           this.listed.push(kvitto);
+//         });
+//       });
+//       break;
+//   }
+//   this.isLoading = false;
+// }
 
 //   onSearch() {
 //     console.log(this.selectedCategory)
