@@ -16,22 +16,30 @@ export class KvittoComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService
-) { }
+  ) { }
 
-  ngOnInit(){
-    this.route.params.subscribe( params =>
-        this.refNr = params['refNr']
+  ngOnInit() {
+    this.route.params.subscribe(params =>
+      this.refNr = params['refNr']
     )
 
     this.applicationService.getKvitto(this.refNr.toString()).subscribe((data: any) => {
       this.kvitto = data.payload.val();
+
+      let newDatum = new Date(this.kvitto.inDatum);
+      this.kvitto.inDatum = newDatum.getFullYear() + "-" +
+        String(newDatum.getMonth() + 1).padStart(2, '0') + "-" +
+        String(newDatum.getDate()).padStart(2, '0') + " " +
+        String(newDatum.getHours()).padStart(2, '0') + ":" +
+        String(newDatum.getMinutes()).padStart(2, '0');
+
       this.kvitto.arbeten.forEach((item: any) => {
         if (item.checked) {
           this.arbetenKvitto += item.name.toString() + ", ";
         }
       });
       this.arbetenKvitto = this.arbetenKvitto.slice(0, -2);
-      console.log(this.kvitto)
+      // console.log(this.kvitto)
     });
   }
 }
